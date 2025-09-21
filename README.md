@@ -16,3 +16,7 @@
 `cargo build --target thumbv7m-none-eabi` 
 `rustup target add thumbv7m-none-eabi`
 `rustup component list`
+
+`cd target/thumbv7m-none-eabi/debug`
+`file <executable-file-name>`
+
