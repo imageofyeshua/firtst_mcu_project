@@ -13,16 +13,22 @@
 ### *-eabi   -> Processor + No Hardward FloatingPoint Unit
 ### *-eabihf -> Processor + Hardward FloatingPoint Unit
 
-`rustup target list`
-`cargo build --target thumbv7m-none-eabi` 
-`rustup target add thumbv7m-none-eabi`
-`rustup component list`
+```
+rustup target list
+cargo build --target thumbv7m-none-eabi
+rustup target add thumbv7m-none-eabi
+rustup component list
+```
 
-`cd target/thumbv7m-none-eabi/debug`
-`file <executable-file-name>`
+```
+cd target/thumbv7m-none-eabi/debug
+file <executable-file-name>
+```
 
-`cargo install cargo-binutils`
-`rustup component add llvm-tools-preview`
+```
+cargo install cargo-binutils
+rustup component add llvm-tools-preview
+```
 
 > cargo objdump -- -h <elf file> 
 > provides a high-level overview of the section in the ELF file, including their sizes and addresses
