@@ -12,3 +12,7 @@
 
 ### *-eabi   -> Processor + No Hardward FloatingPoint Unit
 ### *-eabihf -> Processor + Hardward FloatingPoint Unit
+
+`cargo build --target thumbv7m-none-eabi` 
+`rustup target add thumbv7m-none-eabi`
+`rustup component list`
