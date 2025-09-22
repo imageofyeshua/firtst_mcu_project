@@ -36,15 +36,22 @@ SECTIONS
   /* initialized data will be in FLASH and it will also be in RAM during runtime */
   .data :
   {
+    _sdata = .; /* start of data section in VMA(RAM) : Virtual Memory Address >> where the section is loaded at runtime */
     *(.data)
     *(.data*)
-  } > RAM AT> FLASH
+    _edata = .;
+  } > RAM AT> FLASH 
+  /* FLASH also called LMA(RAM) : Load Memory Address 
+  * >> where the section is stored before being copied to RAM during startup 
+  */
 
   /* un-initialized data will be in RAM */
   .bss :
   {
+    _sbss = .;
     *(.bss)
     *(.bss*)
+    _ebss = .;
   } > RAM
 
 }
