@@ -16,8 +16,14 @@ fn main() {
 
     let mut total_score = 0;
 
-    for score in SCORES_GLOBAL {
-        total_score += score;
+    unsafe {
+        for score in SCORES_GLOBAL {
+            total_score += score;
+        }
+    }
+
+    unsafe {
+        BUFFER[0] = 100;
     }
 
     loop {

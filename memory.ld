@@ -1,3 +1,6 @@
+ENTRY (reset_handler)
+
+/* define memory regions */
 MEMORY
 {
     FLASH (rx)    : ORIGIN = 0x08000000, LENGTH = 64K

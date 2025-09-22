@@ -33,8 +33,9 @@ rustup component add llvm-tools-preview
 > cargo objdump -- -h <elf file> 
 > provides a high-level overview of the section in the ELF file, including their sizes and addresses
 
-> cargo readobj -- -S <elf file>
-> provides detailed information about each section in the ELF file
+> cargo readobj -- -s <elf file> : display the symbol table
+> cargo readobj -- -all <elf file> : print all details of the ELF file
+> cargo readobj -- -x .data <elf file> : print the contents of each section in an ELF file
 
 `cargo readobj -- -h thumbv7m-none-eabi`
 
