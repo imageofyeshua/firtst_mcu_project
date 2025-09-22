@@ -56,4 +56,44 @@ rustup component add llvm-tools-preview
 
 ### Section header table : describes sections within the file
 
+## Linker Script Commands
+### MEMORY : defines memory regions available on the target device
+### SECTIONS : tells the linker how input sections are mapped to output sections & placed in memory 
+### ENTRY : specifies the entry point of the program
+### OUTPUT :  specifies the name of the output file
+### PROVIDE : defines a symbol if it is not already defined
+### ASSERT : tests an assertion and stops linking if false
+### KEEP : ensures that the linker retains the specified sections
+### AT : specifies a different load address for a section
+### ALIGN : aligns the current location to a specified boundary
+### LOADADDR(section) : returns the absolute load address of the section
+### SIZEOF : returns the size of a section
+### ORIGIN : returns the origin address of a memory region
+### LENGTH : returns the length of a memory region
+
+```
+MEMORY
+{
+    FLASH (rx)    : ORIGIN = 0x08000000, LENGTH = 256K
+    RAM (rwx)     : ORIGIN = 0x20000000, LENGTH = 64K
+    EEPROM (rwx)  : ORIGIN = 0x08080000, LENGTH = 4K
+    CCMRAM (rwx)  : ORIGIN = 0x10000000, LENGTH = 64K
+    BATTRAM (rw)  : ORIGIN = 0x40024000, LENGTH = 4K  /* Battery backed RAM */
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
