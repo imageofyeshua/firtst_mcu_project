@@ -156,10 +156,23 @@ extern "C" fn NMI_Handler() { loop {} }
 #[unsafe(no_mangle)]
 extern "C" fn Default_Handler() { loop {} }
 
+unsafe extern "C" {
+    static _sidata: u32; /* start of .data section in FLASH */
+    static _sdata: u32; /* start of .data section in RAM */
+    static _edata: u32; /* end of .data section in RAM */
+    static _sbss: u32; /* start of .bss section in RAM */
+    static _ebss: u32; /* end of .bss section in RAM */
+}
+
 /* define the reset handler */
 #[unsafe(no_mangle)]
 extern "C" fn Reset_Handler() {
     /* copy the .data section from FLASH to RAM */
+
+    /* reference of static variable to C like raw pointer */
+    unsafe {
+        let src_is_flash = &_sidata as *const u32;
+    }
     /* zero out the .bss section in the RAM */
     /* call main() */
 
