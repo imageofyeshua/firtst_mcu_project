@@ -5,6 +5,3 @@ edition = "2024"
 
 [dependencies]
 serde = { version = "1.0", default-features = false }
-
-[lib]
-test = false

@@ -1,3 +1,5 @@
+use core::ptr;
+
 /* define the vector table for the mcu */
 unsafe extern "C" {
 fn BusFault_Handler();
@@ -157,11 +159,11 @@ extern "C" fn NMI_Handler() { loop {} }
 extern "C" fn Default_Handler() { loop {} }
 
 unsafe extern "C" {
-    static _sidata: u32; /* start of .data section in FLASH */
-    static _sdata: u32; /* start of .data section in RAM */
-    static _edata: u32; /* end of .data section in RAM */
-    static _sbss: u32; /* start of .bss section in RAM */
-    static _ebss: u32; /* end of .bss section in RAM */
+    static mut _sidata: u32; /* start of .data section in FLASH */
+    static mut _sdata: u32; /* start of .data section in RAM */
+    static mut _edata: u32; /* end of .data section in RAM */
+    static mut _sbss: u32; /* start of .bss section in RAM */
+    static mut _ebss: u32; /* end of .bss section in RAM */
 }
 
 /* define the reset handler */
@@ -169,11 +171,27 @@ unsafe extern "C" {
 extern "C" fn Reset_Handler() {
     /* copy the .data section from FLASH to RAM */
 
-    /* reference of static variable to C like raw pointer */
     unsafe {
-        let src_is_flash = &_sidata as *const u32;
+        /* reference of static variable to C like raw pointer */
+        let mut src_is_flash = &raw mut _sidata;
+        let mut dest_is_ram = &raw mut _sdata;
+        let data_end_in_ram = &raw mut _edata;
+
+        while dest_is_ram < data_end_in_ram {
+            *dest_is_ram = *src_is_flash;
+            dest_is_ram = dest_is_ram.add(1);
+            src_is_flash = src_is_flash.add(1);
+        }
+
+        /* zero out the .bss section in the RAM */
+        let mut bss = ptr::addr_of_mut!(_sbss);
+        let bss_end = ptr::addr_of_mut!(_ebss);
+        while bss < bss_end {
+            *bss = 0;
+            bss = bss.add(1);
+        }
+
     }
-    /* zero out the .bss section in the RAM */
     /* call main() */
 
     crate::main();
