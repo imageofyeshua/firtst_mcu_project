@@ -30,7 +30,9 @@ SECTIONS
   {
     /* . = 0x0800_0000 */
     /* here you should collect all executable code */
-    . = ALIGN(4); /* LOCATION COUNTER : multiple of 4 for the next address */
+    . = ORIGIN(FLASH);
+    LONG(_start_of_stack);
+    KEEP(*(.isr_vector));
     *(.text)
     *(.text*) /* . ==> 0x0800_0021 */
     . = ALIGN(4); /* ==> 0x0800_0024 */
@@ -39,7 +41,7 @@ SECTIONS
   /* constant data will go into FLASH */
   .rodata :
   {
-    . = ALIGN(4);
+    . = ALIGN(4); /* LOCATION COUNTER : multiple of 4 for the next address */
     *(.rodata)
     *(.rodata*)
     . = ALIGN(4);
@@ -80,3 +82,5 @@ SECTIONS
   } > RAM
 
 }
+
+INCLUDE "device_STM32F103.x"

@@ -1,6 +1,7 @@
 #![no_std]
 #![no_main]
 #![allow(clippy::empty_loop)]
+#![allow(unused_variables, dead_code)]
 
 use core::panic::PanicInfo;
 
