@@ -72,7 +72,7 @@ pub enum PinState {
 }
 
 pub fn set_gpio_pin_state(port: u32, pin: u32, pin_state: PinState) {
-    let gpio_bsrr_addr = (port + 0x18) as *mut u32;
+    let gpio_bsrr_addr = (port + 0x10) as *mut u32;
 
     match pin_state {
         PinState::High => {
@@ -84,7 +84,7 @@ pub fn set_gpio_pin_state(port: u32, pin: u32, pin_state: PinState) {
         }
 
         PinState::Toggle => {
-            let gpio_odr_addr = (port + 0x14) as *mut u32;
+            let gpio_odr_addr = (port + 0x0C) as *mut u32;
             if reg_read_bit(gpio_odr_addr, pin) {
                 reg_set_val(gpio_bsrr_addr, 1 << (pin + 16));
             } else {
