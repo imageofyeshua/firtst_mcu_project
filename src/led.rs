@@ -1,49 +1,50 @@
-use core::ptr;
+//! # LED Control Module
+//!
+//! This module provides basic functions to initialize and control an LED
+//! connected to a GPIO pin
 
-unsafe fn read_register(addr: *mut u32) -> u32 {
-    ptr::read_volatile(addr)
-}
+use crate::gpio::*;
 
-unsafe fn write_register(addr: *mut u32, value: u32) {
-    ptr::write_volatile(addr, value)
-}
-
-fn clear_bits(value: u32, mask: u32) -> u32 {
-    value & !mask
-}
-
-fn set_bits(value: u32, mask: u32) -> u32 {
-    value | mask
-}
-
+/// Initializes an LED connected to the given GPIO port and pin.
+///
+/// This function performs the following steps:
+/// 1. Enables the peripheral clock for the specified GPIO port.
+/// 2. Configures the GPIO pin as an output pin.
+/// 3. Sets the output type to push-pull.
+/// 4. Optionally sets the output speed.
+///
+/// # Parameters
+/// - *port* : The GPIO port address to which the LED is connected
+/// - **pin** : The GPIO pin number to which the LED is connected
+/// - `arg`: ??
+///
+/// # Warning
+/// # Note
+/// # Example
+/// ```
+/// led_init(GPIOA_BASE, GPIO_PIN_0);
+/// ```
 pub fn led_init(port: u32, pin: u32) {
-    // 1. set the gpio pin mode = output mode
-    let offset = 0;
-    let gpio_mode_reg_addr = (port + offset) as *mut u32;
+    //1. enable the peripheral clock
+    enable_gpio_clock(port);
 
-    // calculate the bit osition for the given pin
-    let bit_position = pin * 2;
-    let mode_mask = 0x3 << bit_position;
-    let mode_value = 0x1 << bit_position;
+    //2. Set the gpio pin mode = output mode
+    set_gpio_mode_output(port, pin);
 
-    unsafe {
-        let mut gpio_mode_reg_value = read_register(gpio_mode_reg_addr);
-        gpio_mode_reg_value = clear_bits(gpio_mode_reg_value, mode_mask);
-        gpio_mode_reg_value = set_bits(gpio_mode_reg_value, mode_mask);
-        write_register(gpio_mode_reg_addr, gpio_mode_reg_value);
-    }
-    // 2. set the output type = pushpull
-    // 3. set the output speed (optional)
+    //3. Set the ouput type = pushpull
+    set_gpio_output_type_push_pull(port, pin);
+
+    //4. Set the output speed (optional)
 }
 
 pub fn led_on(port: u32, pin: u32) {
-
+    set_gpio_pin_state(port, pin, PinState::High);
 }
 
 pub fn led_off(port: u32, pin: u32) {
-
+    set_gpio_pin_state(port, pin, PinState::Low);
 }
 
 pub fn led_toggle(port: u32, pin: u32) {
-
+    set_gpio_pin_state(port, pin, PinState::Toggle);
 }
