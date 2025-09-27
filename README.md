@@ -83,7 +83,22 @@ MEMORY
 }
 ```
 
+```
+# Build the project
+cargo build --release
 
+# Check the size of the binary
+arm-none-eabi-size target/thumbv7m-none-eabi/release/first-mcu-project
+
+# Create binary file for flashing
+arm-none-eabi-objcopy -O binary target/thumbv7m-none-eabi/release/first-mcu-project
+
+# Flash using probe-rs (supports ST-Link, J-Link, etc.)
+probe-rs download --chip STM32F103C8 target/thumbv7m-none-eabi/release/first-mcu-project
+
+# Or run directly
+cargo run --release
+```
 
 
 
